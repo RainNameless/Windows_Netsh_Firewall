@@ -1,8 +1,10 @@
 @echo off
 color 2f
 mode con cols=50 lines=30
+Rd "%WinDir%\system32\test_permissions" >NUL 2>NUL
+Md "%WinDir%\System32\test_permissions" 2>NUL||(Echo 请使用右键管理员身份运行！&&Pause >nul&&Exit)
+Rd "%WinDir%\System32\test_permissions" 2>NUL
 title   NamelessRain
-if not  %username%=="administrator" echo 请选择右键以管理员身份运行。
 :sc_999
 echo.&echo.&echo.
 echo         	  简单防火墙1.1
@@ -171,18 +173,9 @@ goto sc_999
 ::————————————关闭远程协助————————————————————————————————————————————:sc_8——————————————————————————————————————————————————————————————————————————
 :sc_8
 cls
-::调用RDPWInst卸载所有
-if not exist "%~dp0RDPWInst.exe" goto :error
-"%~dp0RDPWInst" -u
-echo.
-goto :anykey
-:error
-echo [-] Installer executable not found.
-echo Please extract all files from the downloaded package or check your anti-virus.
-:anykey
-cls
 ::修改注册表启用远程桌面。
 REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD  /d  1  /f
 net stop SessionEnv 
 net stop TermService /y
+mshta vbscript:msgbox("远程协助已关闭",64,"提示")(window.close) 
 goto sc_999
