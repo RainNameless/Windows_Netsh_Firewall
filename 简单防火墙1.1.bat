@@ -1,7 +1,7 @@
 @echo off
 color 2f
 mode con cols=50 lines=30
-title   zero制作
+title   NamelessRain
 if not  %username%=="administrator" echo 请选择右键以管理员身份运行。
 :sc_999
 echo.&echo.&echo.
