@@ -54,16 +54,16 @@ mshta vbscript:msgbox("禁用高危端口:134,135,137,138,139,445,593,1025,2745,3127,3
 netsh advfirewall reset
 netsh advfirewall set allprofiles state on
 netsh firewall set icmpsetting 8
-net stop SessionEnv 
-net stop TermService /y
-net start SessionEnv 
-net start TermService
 netsh advfirewall firewall add rule name="bat策略"  dir=in protocol=TCP localport=134,135,137,138,139,445,593,1025,2745,3127,3389,6129 action=block
 netsh advfirewall firewall add rule name="bat策略"  dir=out protocol=TCP localport=134,135,137,138,139,445,593,1025,2745,3127,3389,6129 action=block
 netsh advfirewall firewall add rule name="远程控制" dir=in protocol=tcp localport=2333 action=allow
 REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD  /d  0  /f
 REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp" /v PortNumber /t REG_DWORD  /d 2333 /f
 REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber /t REG_DWORD  /d 2333 /f
+net stop SessionEnv 
+net stop TermService /y
+net start SessionEnv 
+net start TermService
 mshta vbscript:msgbox("配置脚本策略成功：%port% ",64,"提示")(window.close) 
 cls
 goto sc_999
@@ -186,19 +186,3 @@ REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnec
 net stop SessionEnv 
 net stop TermService /y
 goto sc_999
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
